@@ -53,7 +53,21 @@ public class NotifierMobileService {
      * @return
      */
     public static List<Notification> getAll(Authentication authentication, Integer type, Boolean unread) {
-        HttpURLConnection request = HttpHelper.createGetRequest(RequestType.GET_ALL, authentication, null, type, unread);
+        HttpURLConnection request = HttpHelper.createGetRequest(RequestType.GET_ALL, authentication, null, type, unread, null);
+        List<Notification> notifications = HttpHelper.getResponses(request);
+        return notifications;
+    }
+
+    /**
+     * Get notifications by type and unread and from id (only get the notifications which has id is more than from id)
+     * @param authentication
+     * @param type
+     * @param unread
+     * @param fromId
+     * @return
+     */
+    public static List<Notification> getAll(Authentication authentication, Integer type, Boolean unread, Integer fromId) {
+        HttpURLConnection request = HttpHelper.createGetRequest(RequestType.GET_ALL, authentication, null, type, unread, fromId);
         List<Notification> notifications = HttpHelper.getResponses(request);
         return notifications;
     }
@@ -66,7 +80,7 @@ public class NotifierMobileService {
      * @return
      */
     public static Notification get(int id, Authentication authentication) {
-        HttpURLConnection request = HttpHelper.createGetRequest(RequestType.GET, authentication, id, null, null);
+        HttpURLConnection request = HttpHelper.createGetRequest(RequestType.GET, authentication, id, null, null, null);
         Notification notification = HttpHelper.getResponse(request);
         return notification;
     }

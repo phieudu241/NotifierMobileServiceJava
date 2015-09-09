@@ -15,13 +15,18 @@ import java.util.List;
 
 public class HttpHelper {
 
-    public static HttpURLConnection createGetRequest(RequestType requestType, Authentication authentication,
-                                                     Integer id, Integer type, Boolean unread) {
+    public static HttpURLConnection createGetRequest(RequestType requestType,
+                                                     Authentication authentication,
+                                                     Integer id,
+                                                     Integer type,
+                                                     Boolean unread,
+                                                     Integer fromId) {
         String requestUrl = id != null ? requestType.getUrl() + "/" + id : requestType.getUrl();
 
         requestUrl += "?username=" + authentication.getUsername() + "&secretKey=" + authentication.getSecretKey();
         requestUrl += (type != null) ? "&type=" + type : "";
         requestUrl += (unread != null) ? "&unread=" + unread : "";
+        requestUrl += (fromId != null) ? "&fromId=" + fromId : "";
 
         URL url;
         HttpURLConnection request;
