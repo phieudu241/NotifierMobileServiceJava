@@ -1,6 +1,5 @@
 package com.notifiermobile.utils;
 
-import com.mysql.jdbc.StringUtils;
 import com.notifiermobile.enums.RequestType;
 import com.notifiermobile.exception.RequestException;
 import com.notifiermobile.models.Authentication;
@@ -10,10 +9,14 @@ import com.notifiermobile.models.Notification;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.List;
 
 public class HttpHelper {
+
+    public static final int CONNECTION_TIMEOUT = 5000;
+    public static final int HTTP_REQUEST_TIMEOUT = 408;
 
     public static HttpURLConnection createGetRequest(RequestType requestType,
                                                      Authentication authentication,
@@ -23,7 +26,10 @@ public class HttpHelper {
                                                      Integer fromId) {
         String requestUrl = id != null ? requestType.getUrl() + "/" + id : requestType.getUrl();
 
-        requestUrl += "?username=" + authentication.getUsername() + "&secretKey=" + authentication.getSecretKey();
+        if (authentication != null) {
+            requestUrl += "?username=" + authentication.getUsername() + "&secretKey=" + authentication.getSecretKey();
+        }
+
         requestUrl += (type != null) ? "&type=" + type : "";
         requestUrl += (unread != null) ? "&unread=" + unread : "";
         requestUrl += (fromId != null) ? "&fromId=" + fromId : "";
@@ -33,13 +39,14 @@ public class HttpHelper {
         try {
             url = new URL(requestUrl);
             request = (HttpURLConnection) url.openConnection();
-            request.setDoOutput(true);
-            request.setDoInput(true);
-            request.setRequestProperty("Method", requestType.getMethod());
+            request.setConnectTimeout(CONNECTION_TIMEOUT);
+            request.setRequestMethod(requestType.getMethod());
         } catch (MalformedURLException e) {
             throw new RequestException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
             throw new RequestException(e.getMessage());
+        } catch (SocketTimeoutException e) {
+            throw new RequestException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
             throw new RequestException(e.getMessage());
         }
@@ -47,14 +54,21 @@ public class HttpHelper {
         return request;
     }
 
-    public static HttpURLConnection createRequest(RequestType requestType, Authentication authentication, Integer id, IRequestModel model) {
+    public static HttpURLConnection createRequest(RequestType requestType,
+                                                  Authentication authentication,
+                                                  Integer id,
+                                                  IRequestModel model) {
         String requestUrl = id != null ? requestType.getUrl() + "/" + id : requestType.getUrl();
-        requestUrl += "?username=" + authentication.getUsername() + "&secretKey=" + authentication.getSecretKey();
+        if (authentication != null) {
+            requestUrl += "?username=" + authentication.getUsername() + "&secretKey=" + authentication.getSecretKey();
+        }
 
         HttpURLConnection request;
         try {
             URL url = new URL(requestUrl);
+
             request = (HttpURLConnection) url.openConnection();
+            request.setConnectTimeout(CONNECTION_TIMEOUT);
             request.setDoOutput(true);
             request.setDoInput(true);
             request.setRequestMethod(requestType.getMethod());
@@ -65,11 +79,14 @@ public class HttpHelper {
                 OutputStream os = request.getOutputStream();
                 os.write(model.generateJsonString().getBytes("UTF-8"));
                 os.flush();
+                os.close();
             }
         } catch (MalformedURLException e) {
             throw new RequestException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
             throw new RequestException(e.getMessage());
+        } catch (SocketTimeoutException e) {
+            throw new RequestException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
             throw new RequestException(e.getMessage());
         }
@@ -81,7 +98,7 @@ public class HttpHelper {
         Notification notification = null;
         try {
             String responseString = getResponseString(request);
-            if (!StringUtils.isNullOrEmpty(responseString)) {
+            if (responseString != null && responseString != "") {
                 notification = JSONUtils.getNotification(responseString);
             }
         } catch (IOException e) {
@@ -101,6 +118,20 @@ public class HttpHelper {
         }
 
         return notifications;
+    }
+
+    public static String getSecretKeyResponse(HttpURLConnection request) {
+        String responseString;
+        try {
+            responseString = getResponseString(request);
+            if (responseString != null) {
+                responseString = responseString.replace("\n", "").replace("\"", "");
+            }
+        } catch (IOException e) {
+            throw new RequestException(e.getMessage());
+        }
+
+        return responseString;
     }
 
     private static String getResponseString(HttpURLConnection request) throws IOException {
