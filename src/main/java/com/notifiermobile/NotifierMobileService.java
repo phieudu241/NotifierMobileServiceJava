@@ -1,16 +1,23 @@
 package com.notifiermobile;
 
 import com.notifiermobile.enums.RequestType;
-import com.notifiermobile.models.AddModel;
-import com.notifiermobile.models.Authentication;
-import com.notifiermobile.models.Notification;
-import com.notifiermobile.models.UpdateModel;
+import com.notifiermobile.models.*;
 import com.notifiermobile.utils.HttpHelper;
+import sun.security.krb5.Credentials;
 
 import java.net.HttpURLConnection;
 import java.util.List;
 
 public class NotifierMobileService {
+
+    /**
+     * Get secret key
+     * @param credential
+     */
+    public static String getSecretKey(Credential credential) {
+        HttpURLConnection request = HttpHelper.createRequest(RequestType.AUTHENTICATION, null, null, credential);
+        return HttpHelper.getSecretKeyResponse(request);
+    }
 
     /**
      * Get all notifications

@@ -9,7 +9,8 @@ public enum RequestType {
     ADD(APIInterface.ADD_URL, "POST"),
     UPDATE(APIInterface.UPDATE_URL, "PUT"),
     MARK_AS_READ(APIInterface.MARK_AS_READ_URL, "PUT"),
-    DELETE(APIInterface.DELETE_URL, "DELETE");
+    DELETE(APIInterface.DELETE_URL, "DELETE"),
+    AUTHENTICATION(APIInterface.AUTHENTICATION, "POST");
 
     private String url;
     private String method;

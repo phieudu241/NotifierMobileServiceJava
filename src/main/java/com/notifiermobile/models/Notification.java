@@ -1,7 +1,8 @@
 package com.notifiermobile.models;
+import java.io.Serializable;
 import java.util.Date;
 
-public class Notification {
+public class Notification implements Serializable {
     private int id;
     private String title;
     private String message;
