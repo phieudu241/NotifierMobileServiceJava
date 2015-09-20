@@ -1,7 +1,7 @@
 package com.notifiermobile.utils;
 
 import com.notifiermobile.enums.RequestType;
-import com.notifiermobile.exception.RequestException;
+import com.notifiermobile.exception.NotificationException;
 import com.notifiermobile.models.Authentication;
 import com.notifiermobile.models.IRequestModel;
 import com.notifiermobile.models.Notification;
@@ -42,13 +42,13 @@ public class HttpHelper {
             request.setConnectTimeout(CONNECTION_TIMEOUT);
             request.setRequestMethod(requestType.getMethod());
         } catch (MalformedURLException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         } catch (SocketTimeoutException e) {
-            throw new RequestException(HTTP_REQUEST_TIMEOUT, e.getMessage());
+            throw new NotificationException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         }
 
         return request;
@@ -82,13 +82,13 @@ public class HttpHelper {
                 os.close();
             }
         } catch (MalformedURLException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         } catch (UnsupportedEncodingException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         } catch (SocketTimeoutException e) {
-            throw new RequestException(HTTP_REQUEST_TIMEOUT, e.getMessage());
+            throw new NotificationException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         }
 
         return request;
@@ -102,7 +102,7 @@ public class HttpHelper {
                 notification = JSONUtils.getNotification(responseString);
             }
         } catch (IOException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         }
 
         return notification;
@@ -114,7 +114,7 @@ public class HttpHelper {
             String responseString = getResponseString(request);
             notifications = JSONUtils.getNotifications(responseString);
         } catch (IOException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         }
 
         return notifications;
@@ -128,7 +128,7 @@ public class HttpHelper {
                 responseString = responseString.replace("\n", "").replace("\"", "");
             }
         } catch (IOException e) {
-            throw new RequestException(e.getMessage());
+            throw new NotificationException(e.getMessage());
         }
 
         return responseString;
@@ -148,7 +148,7 @@ public class HttpHelper {
             br.close();
 
         } else {
-            throw new RequestException(responseCode);
+            throw new NotificationException(responseCode);
         }
 
         return responseString.toString();

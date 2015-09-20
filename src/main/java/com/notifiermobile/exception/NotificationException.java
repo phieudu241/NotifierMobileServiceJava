@@ -1,18 +1,18 @@
 package com.notifiermobile.exception;
 
-public class RequestException extends RuntimeException {
+public class NotificationException extends RuntimeException {
     private int httpStatus = -1;
     private String errorMessage;
 
-    public RequestException(int httpStatus) {
+    public NotificationException(int httpStatus) {
         this.httpStatus = httpStatus;
     }
 
-    public RequestException(String errorMessage) {
+    public NotificationException(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
-    public RequestException(int httpStatus, String errorMessage) {
+    public NotificationException(int httpStatus, String errorMessage) {
         this.httpStatus = httpStatus;
         this.errorMessage = errorMessage;
     }
