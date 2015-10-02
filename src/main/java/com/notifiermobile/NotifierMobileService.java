@@ -1,9 +1,10 @@
 package com.notifiermobile;
 
 import com.notifiermobile.enums.RequestType;
-import com.notifiermobile.models.*;
+import com.notifiermobile.models.Authentication;
+import com.notifiermobile.models.Credential;
+import com.notifiermobile.models.Notification;
 import com.notifiermobile.utils.HttpHelper;
-import sun.security.krb5.Credentials;
 
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -12,6 +13,7 @@ public class NotifierMobileService {
 
     /**
      * Get secret key
+     *
      * @param credential
      */
     public static String getSecretKey(Credential credential) {
@@ -67,6 +69,7 @@ public class NotifierMobileService {
 
     /**
      * Get notifications by type and unread and from id (only get the notifications which has id is more than from id)
+     *
      * @param authentication
      * @param type
      * @param unread
@@ -98,7 +101,7 @@ public class NotifierMobileService {
      * @param authentication
      * @param model
      */
-    public static void add(Authentication authentication, AddModel model) {
+    public static void add(Authentication authentication, Notification model) {
         HttpURLConnection request = HttpHelper.createRequest(RequestType.ADD, authentication, null, model);
         HttpHelper.getResponse(request);
     }
@@ -110,7 +113,7 @@ public class NotifierMobileService {
      * @param authentication
      * @param model
      */
-    public static void update(int id, Authentication authentication, UpdateModel model) {
+    public static void update(int id, Authentication authentication, Notification model) {
         HttpURLConnection request = HttpHelper.createRequest(RequestType.UPDATE, authentication, id, model);
         HttpHelper.getResponse(request);
     }

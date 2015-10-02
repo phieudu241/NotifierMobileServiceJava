@@ -98,9 +98,11 @@ public class HttpHelper {
         Notification notification = null;
         try {
             String responseString = getResponseString(request);
-            if (responseString != null && responseString != "") {
+            if (responseString != null && !"".equals(responseString)) {
                 notification = JSONUtils.getNotification(responseString);
             }
+        } catch (SocketTimeoutException e) {
+            throw new NotificationException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
             throw new NotificationException(e.getMessage());
         }
@@ -113,6 +115,8 @@ public class HttpHelper {
         try {
             String responseString = getResponseString(request);
             notifications = JSONUtils.getNotifications(responseString);
+        } catch (SocketTimeoutException e) {
+            throw new NotificationException(HTTP_REQUEST_TIMEOUT, e.getMessage());
         } catch (IOException e) {
             throw new NotificationException(e.getMessage());
         }

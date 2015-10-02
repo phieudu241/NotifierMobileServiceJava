@@ -38,9 +38,9 @@ public class JSONUtils {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
         try {
-            notification.setCreatedDate(dateFormat.parse(jsonObject.getString("CreatedDate")));
+            notification.setCreateDate(dateFormat.parse(jsonObject.getString("CreateDate")));
         } catch (ParseException e) {
-            notification.setCreatedDate(null);
+            notification.setCreateDate(null);
         }
         return notification;
     }

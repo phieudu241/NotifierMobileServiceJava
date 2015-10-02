@@ -1,18 +1,62 @@
 package com.notifiermobile.models;
+
+import com.notifiermobile.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
 
-public class Notification implements Serializable {
-    private int id;
+public class Notification implements Serializable, IRequestModel {
+    private Integer id;
     private String title;
     private String message;
-    private int type;
+    private Integer type;
     private boolean unRead;
-    private Date createdDate;
+    private Date createDate;
 
-    public String generateJsonString()
-    {
-        return null;
+    public Notification() {
+    }
+
+    public Notification(String title, String message) {
+        this.title = title;
+        this.message = message;
+    }
+
+    public Notification(String title, String message, Integer type) {
+        this.title = title;
+        this.message = message;
+        this.type = type;
+    }
+
+    public Notification(String title, String message, Integer type, Date createDate) {
+        this.title = title;
+        this.message = message;
+        this.type = type;
+        this.createDate = createDate;
+    }
+
+    public String generateJsonString() {
+        JSONObject json = new JSONObject();
+        if (id != null) {
+            json.put("id", id);
+        }
+
+        if (title != null) {
+            json.put("title", title);
+        }
+
+        if (message != null) {
+            json.put("message", message);
+        }
+
+        if (type != null) {
+            json.put("type", type);
+        }
+
+        if (createDate != null) {
+            json.put("createDate", createDate);
+        }
+
+        return json.toString();
     }
 
     public int getId() {
@@ -55,11 +99,11 @@ public class Notification implements Serializable {
         this.unRead = unRead;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }
