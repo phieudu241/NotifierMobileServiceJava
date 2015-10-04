@@ -14,14 +14,16 @@ public class Tester {
         NotifierMobileService.get(9, authentication);
 
         Notification addModel = new Notification("eeeeeeeeee", "message", NotificationType.INFO.ordinal(), new Date());
-        NotifierMobileService.add(authentication, addModel);
+        //addModel.setId(1);
+        NotifierMobileService.add(addModel, authentication);
 
         Notification updateModel = new Notification();
+        //addModel.setId(1);
         updateModel.setTitle("hahahahahahhahahaha");
         updateModel.setMessage("update");
         updateModel.setType(NotificationType.WARNING.ordinal());
         updateModel.setUnRead(true);
-        NotifierMobileService.update(21, authentication, updateModel);
+        NotifierMobileService.update(21, updateModel, authentication);
 
         //NotifierMobileService.delete(30, authentication);
 

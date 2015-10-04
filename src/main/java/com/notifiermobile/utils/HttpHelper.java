@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HttpHelper {
 
-    public static final int CONNECTION_TIMEOUT = 5000;
+    public static final int CONNECTION_TIMEOUT = 8000;
     public static final int HTTP_REQUEST_TIMEOUT = 408;
 
     public static HttpURLConnection createGetRequest(RequestType requestType,

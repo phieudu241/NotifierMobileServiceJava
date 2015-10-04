@@ -68,7 +68,7 @@ public class NotifierMobileService {
     }
 
     /**
-     * Get notifications by type and unread and from id (only get the notifications which has id is more than from id)
+     * Get notifications by type and unread and from id (only get the notifications which has id is greater than from id)
      *
      * @param authentication
      * @param type
@@ -101,7 +101,7 @@ public class NotifierMobileService {
      * @param authentication
      * @param model
      */
-    public static void add(Authentication authentication, Notification model) {
+    public static void add(Notification model, Authentication authentication) {
         HttpURLConnection request = HttpHelper.createRequest(RequestType.ADD, authentication, null, model);
         HttpHelper.getResponse(request);
     }
@@ -113,7 +113,7 @@ public class NotifierMobileService {
      * @param authentication
      * @param model
      */
-    public static void update(int id, Authentication authentication, Notification model) {
+    public static void update(int id, Notification model, Authentication authentication) {
         HttpURLConnection request = HttpHelper.createRequest(RequestType.UPDATE, authentication, id, model);
         HttpHelper.getResponse(request);
     }
