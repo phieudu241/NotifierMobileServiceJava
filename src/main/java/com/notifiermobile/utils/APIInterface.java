@@ -1,8 +1,7 @@
 package com.notifiermobile.utils;
 
 public class APIInterface {
-    //private static static String API_URL = "http://notifiermobile.com/api/notifier";
-    public static final String DOMAIN_URL = "http://192.168.1.5:8282";
+    public static final String DOMAIN_URL = "http://notifiermobile.com";
     public static final String API_URL = DOMAIN_URL + "/api/notifications";
     public static final String API_USER_URL = DOMAIN_URL + "/api/user";
     public static final String GET_URL = API_URL;

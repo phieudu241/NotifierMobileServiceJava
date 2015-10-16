@@ -10,7 +10,7 @@ public class Notification implements Serializable, IRequestModel {
     private String title;
     private String message;
     private Integer type;
-    private boolean unRead;
+    private Boolean unRead;
     private Date createDate;
 
     public Notification() {
@@ -50,6 +50,10 @@ public class Notification implements Serializable, IRequestModel {
 
         if (type != null) {
             json.put("type", type);
+        }
+
+        if (unRead != null) {
+            json.put("unRead", unRead.booleanValue());
         }
 
         if (createDate != null) {
