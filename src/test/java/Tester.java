@@ -23,10 +23,10 @@ public class Tester {
         updateModel.setMessage("update");
         updateModel.setType(NotificationType.WARNING.ordinal());
         updateModel.setUnRead(true);
-        NotifierMobileService.update(21, updateModel, authentication);
-
-        //NotifierMobileService.delete(30, authentication);
+        NotifierMobileService.update(27, updateModel, authentication);
 
         NotifierMobileService.markAsRead(27, authentication);
+
+        NotifierMobileService.delete(91, authentication);
     }
 }

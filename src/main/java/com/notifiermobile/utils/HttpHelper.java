@@ -69,9 +69,16 @@ public class HttpHelper {
 
             request = (HttpURLConnection) url.openConnection();
             request.setConnectTimeout(CONNECTION_TIMEOUT);
-            request.setDoOutput(true);
+
+            if ("DELETE".equals(requestType.getMethod())) {
+                request.setRequestMethod("POST");
+                request.setRequestProperty("X-HTTP-Method-Override", "DELETE");
+            } else {
+                request.setRequestMethod(requestType.getMethod());
+            }
+
             request.setDoInput(true);
-            request.setRequestMethod(requestType.getMethod());
+            request.setDoOutput(true);
 
             if (model != null) {
                 request.setRequestProperty("Content-Type", "application/json");
@@ -80,6 +87,8 @@ public class HttpHelper {
                 os.write(model.generateJsonString().getBytes("UTF-8"));
                 os.flush();
                 os.close();
+            } else {
+                request.setFixedLengthStreamingMode(0);
             }
         } catch (MalformedURLException e) {
             throw new NotificationException(e.getMessage());
