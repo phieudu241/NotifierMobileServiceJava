@@ -70,6 +70,8 @@ public class HttpHelper {
             request = (HttpURLConnection) url.openConnection();
             request.setConnectTimeout(CONNECTION_TIMEOUT);
 
+            // JDK-7157360 : HttpURLConnection: HTTP method DELETE doesn't support output
+            // http://bugs.java.com/view_bug.do?bug_id=7157360
             if ("DELETE".equals(requestType.getMethod())) {
                 request.setRequestMethod("POST");
                 request.setRequestProperty("X-HTTP-Method-Override", "DELETE");
